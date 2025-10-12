@@ -1,11 +1,131 @@
 body {
-  /* Set line height to 1.5 times the font size
-	   and use the OS’s UI font as the website font
-	 */
+  margin-inline: max(1em, (100% - 100ch) / 2);
   font: 100%/1.5 system-ui;
 }
 
 img {
   max-width: 100%;
   height: auto;
+}
+
+nav {
+  display: flex;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid oklch(80% 3% 200);
+}
+
+nav a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5em 0.25em;
+}
+
+:root {
+  --color-accent: oklch(70% 25% 240);;
+}
+
+nav a.current {
+  font-weight: 700;
+  border-bottom: 0.4em solid oklch(80% 3% 200);
+  padding-bottom: calc(0.5em - 0.4em);
+}
+
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  background-color: oklch(from var(--color-accent) 95% 5% h);
+  padding-bottom: calc(0.5em - 0.4em);
+}
+
+/* ===== Contact page ===== */
+input, textarea, button {
+  font: inherit;
+}
+
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+  align-items: start;
+}
+
+form label {
+  display: contents;
+}
+
+form input,
+form textarea,
+form button {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+textarea {
+  min-height: 6em;
+}
+
+form button {
+  grid-column: 1 / -1;
+}
+
+/* ===== Project page ===== */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+}
+
+.projects > article {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+
+.projects h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 300%;
+  margin-bottom: 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+/* ===== Resume page ===== */
+.resume h2 {
+  color: oklch(65% 0.15 240);
+  border-bottom: 3px solid oklch(70% 0.12 240);
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.resume section + section {
+  border-top: 1px solid oklch(90% 0 240);
+  padding-top: 1.5rem;
+}
+
+.resume h3 {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.subtle {
+  color: oklch(45% 0.03 240);
+  font-weight: 400;
+}
+
+.resume ul {
+  margin-top: 0.5rem;
+  margin-left: 1.5rem;
 }
