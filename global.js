@@ -70,3 +70,18 @@ if ('colorScheme' in localStorage) {
   document.documentElement.style.setProperty('color-scheme', saved);
   document.querySelector('.color-scheme select').value = saved;
 }
+
+// --- Better contact form ---
+const form = document.querySelector("form");
+
+form?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const data = new FormData(form);
+  let url = form.action + "?";
+
+  for (let [name, value] of data) {
+    url += `${name}=${encodeURIComponent(value)}&`;
+  }
+
+  location.href = url;
+});
