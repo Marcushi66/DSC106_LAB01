@@ -20,20 +20,12 @@ let projects = [];
 
     const titleEl = document.querySelector('.projects-title');
     if (titleEl) {
-      titleEl.textContent = `${projects.length} Projects`;
+        const n = Array.isArray(projects) ? projects.length : 0;
+        titleEl.textContent = n > 0 ? `My Projects — ${n} Total` : 'My Projects — No Projects Yet';
     }
 
   } catch (err) {
     console.error('❌ Error loading projects:', err);
   }
 })();
-
-window.projects = projects;
-
-// Update the projects title with the number of projects
-const titleEl = document.querySelector('.projects-title');
-if (titleEl) {
-  const n = Array.isArray(projects) ? projects.length : 0;
-  titleEl.textContent = n > 0 ? `${n} Project${n === 1 ? '' : 's'}` : 'No Projects';
-}
 

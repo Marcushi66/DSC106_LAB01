@@ -129,4 +129,13 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 }
 
-// Render projects into a container element
+// Fetch GitHub user data
+export async function fetchGitHubData(username) {
+  try {
+    const data = await fetchJSON(`https://api.github.com/users/${username}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching GitHub data:", error);
+    return null;
+  }
+}

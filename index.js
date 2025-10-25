@@ -1,5 +1,5 @@
 // ---- index.js ----
-import { fetchJSON, renderProjects } from './global.js';
+import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 (async function showLatestProjects() {
   try {
@@ -19,3 +19,10 @@ import { fetchJSON, renderProjects } from './global.js';
     console.error('❌ Error loading latest projects:', err);
   }
 })();
+
+// Fetch GitHub data and log it
+(async function initHomePage() {
+  const githubData = await fetchGitHubData('Marcushi66');
+  console.log("✅ GitHub Data fetched successfully:", githubData);
+})();
+
