@@ -151,3 +151,57 @@ nav a:hover {
   font-family: inherit;
 }
 
+
+/* ===== My GitHub Stats ===== */
+html { color-scheme: light dark; }
+
+#profile-stats {
+  margin-block: 2.5rem;
+}
+
+#profile-stats h3 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 2rem;
+  row-gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+}
+
+#profile-stats dt, #profile-stats dd {
+  text-align: center;
+}
+
+#profile-stats dt {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: color-mix(in oklch, canvastext 50%, canvas 50%);
+}
+
+#profile-stats dd {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: color-mix(in oklch, canvastext 90%, canvas 10%);
+}
+
+@media (max-width: 800px) {
+  #profile-stats dl {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1rem;
+  }
+  #profile-stats dd {
+    font-size: 1.5rem;
+  }
+}
+
+

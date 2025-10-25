@@ -26,5 +26,20 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
   console.log("✅ GitHub Data fetched successfully:", githubData);
 
   const profileStats = document.querySelector('#profile-stats');
+  if (!profileStats) {
+    console.error("❌ profileStats container not found!");
+    return;
+  }
+
+  profileStats.innerHTML = `
+    <h2>My GitHub Stats</h2>
+    <dl>
+      <dt>Public Repos:</dt><dd>${githubData.public_repos}</dd>
+      <dt>Public Gists:</dt><dd>${githubData.public_gists}</dd>
+      <dt>Followers:</dt><dd>${githubData.followers}</dd>
+      <dt>Following:</dt><dd>${githubData.following}</dd>
+    </dl>
+  `;
 })();
+
 
