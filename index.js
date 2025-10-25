@@ -24,5 +24,7 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 (async function initHomePage() {
   const githubData = await fetchGitHubData('Marcushi66');
   console.log("✅ GitHub Data fetched successfully:", githubData);
+
+  const profileStats = document.querySelector('#profile-stats');
 })();
 
