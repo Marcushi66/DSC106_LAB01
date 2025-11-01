@@ -205,3 +205,51 @@ html { color-scheme: light dark; }
 }
 
 
+/* ===== Projects Pie Plot ===== */
+#projects-pie-plot{
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  aspect-ratio: 1 / 1; 
+  overflow: visible;
+}
+
+
+/* Legend for Pie Plot */
+.legend{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: .5rem 1rem;
+  padding: .75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: .5rem;
+}
+
+.legend-item{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 9em;
+  font-size: .95rem;
+}
+
+.legend-item .swatch{
+  width: .9rem;
+  height: .9rem;
+  background: var(--color);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.legend-item em{
+  font-style: normal;
+  opacity: .7;
+}
+
+.viz{
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.viz .legend{ flex: 1; }
+
