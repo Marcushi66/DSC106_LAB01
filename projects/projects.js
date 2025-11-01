@@ -23,6 +23,14 @@ let projects = [];
     if (titleEl) {
         const n = Array.isArray(projects) ? projects.length : 0;
         titleEl.textContent = n > 0 ? `My Projects — ${n} Total` : 'My Projects — No Projects Yet';
+
+    const rolled = d3.rollups(projects, v => v.length, d => String(d.year));
+    const pieData = rolled
+      .map(([year, count]) => ({ label: year, value: count }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+    renderPieChart(pieData);
+    renderLegend(pieData);
     }
 
   } catch (err) {
@@ -30,41 +38,29 @@ let projects = [];
   }
 })();
 
-// ===== D3 Pie Plot =====
-let data = [
-  { value: 1, label: 'apples' },
-  { value: 2, label: 'oranges' },
-  { value: 3, label: 'mangos' },
-  { value: 4, label: 'pears' },
-  { value: 5, label: 'limes' },
-  { value: 5, label: 'cherries' },
-];
-
-
+// ===== D3 Pie Plot & Legend =====
 const svg = d3.select('#projects-pie-plot');
-let sliceGenerator = d3.pie().value(d => d.value);
-const arcData = sliceGenerator(data);
-
-const arcGenerator = d3.arc()
-  .innerRadius(0)
-  .outerRadius(50);
-
 const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-svg.selectAll('path')
-  .data(arcData)
-  .join('path')
-  .attr('d', arcGenerator)
-  .attr('fill', (d, i) => colors(i))
+function renderPieChart(data) {
+  const sliceGenerator = d3.pie().value(d => d.value);
+  const arcData = sliceGenerator(data);
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
 
+  svg.selectAll('path')
+    .data(arcData, d => d.data.label)
+    .join('path')
+    .attr('d', arcGenerator)
+    .attr('fill', (_d, i) => colors(i));
+}
 
-// ===== Legend =====
-let legend = d3.select('.legend');
+function renderLegend(data) {
+  const legend = d3.select('.legend');
 
-legend.selectAll('li')
-  .data(data)
-  .join('li')
-  .attr('class', 'legend-item')
-  .style('--color', (_d, i) => colors(i))
-  .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-
+  legend.selectAll('li')
+    .data(data, d => d.label)
+    .join('li')
+    .attr('class', 'legend-item')
+    .style('--color', (_d, i) => colors(i))
+    .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+}
