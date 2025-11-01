@@ -279,15 +279,13 @@ html { color-scheme: light dark; }
 }
 
 #projects-pie-plot path.selected {
-  /* 教材里建议用一个明显不同的颜色；用 !important 覆盖 D3 行内 fill */
   fill: oklch(60% 0.2 0) !important;
   stroke: black;
   stroke-width: 2px;
 }
 
-/* Step 5.2 的点击高亮 —— 图例 */
 .legend .legend-item.selected {
-  --color: oklch(60% 0.2 0) !important; /* 覆盖 swatch 的背景色 */
+  --color: oklch(60% 0.2 0) !important;
 }
 
 .legend .legend-item .swatch {
