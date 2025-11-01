@@ -3,6 +3,7 @@ import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 let projects = [];
+let query = '';
 
 (async function initProjects() {
   try {
@@ -19,18 +20,40 @@ let projects = [];
     renderProjects(projects, container, 'h2');
     console.log('✅ Rendering complete');
 
-    const titleEl = document.querySelector('.projects-title');
-    if (titleEl) {
-        const n = Array.isArray(projects) ? projects.length : 0;
-        titleEl.textContent = n > 0 ? `My Projects — ${n} Total` : 'My Projects — No Projects Yet';
+    const initialTitle = document.querySelector('.projects-title');
+    if (initialTitle) {
+      initialTitle.textContent =
+        projects.length > 0 ? `My Projects — ${projects.length} Total`
+                            : 'My Projects — No Projects Yet';
+    }
 
-    const rolled = d3.rollups(projects, v => v.length, d => String(d.year));
-    const pieData = rolled
-      .map(([year, count]) => ({ label: year, value: count }))
-      .sort((a, b) => a.label.localeCompare(b.label));
+    renderPieAndLegend(projects);
 
-    renderPieChart(pieData);
-    renderLegend(pieData);
+    const projectsContainer = document.querySelector('.projects');
+    const searchInput = document.querySelector('.searchBar');
+
+    // Set up search input listener
+    if (searchInput && projectsContainer) {
+      searchInput.addEventListener('input', (event) => {
+        query = (event.target.value || '').trim().toLowerCase();
+
+        const filteredProjects = query === ''
+          ? projects
+          : projects.filter(p => {
+              const haystack = Object.values(p).join('\n').toLowerCase();
+              return haystack.includes(query);
+            });
+
+        renderProjects(filteredProjects, projectsContainer, 'h2');
+
+        const titleEl = document.querySelector('.projects-title');
+        if (titleEl) {
+          titleEl.textContent =
+            `My Projects — ${filteredProjects.length} Total`;
+        }
+
+        renderPieAndLegend(filteredProjects);
+      });
     }
 
   } catch (err) {
@@ -42,6 +65,7 @@ let projects = [];
 const svg = d3.select('#projects-pie-plot');
 const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
+// Render pie chart based on given data
 function renderPieChart(data) {
   const sliceGenerator = d3.pie().value(d => d.value);
   const arcData = sliceGenerator(data);
@@ -54,6 +78,7 @@ function renderPieChart(data) {
     .attr('fill', (_d, i) => colors(i));
 }
 
+// Render legend based on given data
 function renderLegend(data) {
   const legend = d3.select('.legend');
 
@@ -63,4 +88,18 @@ function renderLegend(data) {
     .attr('class', 'legend-item')
     .style('--color', (_d, i) => colors(i))
     .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+}
+
+// Render pie chart and legend based on given projects
+function renderPieAndLegend(projectsGiven) {
+  const rolled = d3.rollups(projectsGiven, v => v.length, d => String(d.year));
+  const pieData = rolled
+    .map(([year, count]) => ({ label: year, value: count }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+  d3.select('#projects-pie-plot').selectAll('*').remove();
+  d3.select('.legend').selectAll('*').remove();
+
+  renderPieChart(pieData);
+  renderLegend(pieData);
 }
