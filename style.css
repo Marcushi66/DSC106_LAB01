@@ -261,3 +261,40 @@ html { color-scheme: light dark; }
   border-radius: .4rem;
   margin-block: 1rem 2rem;
 }
+
+/* ===== Pie Plot Interactivity ===== */
+#projects-pie-plot path {
+  cursor: pointer;
+  transition: 300ms;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+.legend .legend-item.selected { 
+  outline: 1px solid var(--color);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+#projects-pie-plot path.selected {
+  /* 教材里建议用一个明显不同的颜色；用 !important 覆盖 D3 行内 fill */
+  fill: oklch(60% 0.2 0) !important;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+/* Step 5.2 的点击高亮 —— 图例 */
+.legend .legend-item.selected {
+  --color: oklch(60% 0.2 0) !important; /* 覆盖 swatch 的背景色 */
+}
+
+.legend .legend-item .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color);
+  display: inline-block;
+  margin-right: .5rem;
+}
